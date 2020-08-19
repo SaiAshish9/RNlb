@@ -1,16 +1,17 @@
 import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const instance = axios.create({
   baseURL: 'https://test-api.loot-box.co/api/',
 });
 instance.interceptors.request.use(
   async (config) => {
-    const token = null;
+    const token = await AsyncStorage.getItem('token');
     config.headers.Accept = 'application/json';
     config.headers['X-Localization'] = 'en';
     config.headers['Content-Type'] = 'application/json';
 
-    if (token) {
+    if (token && token.length > 0) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;

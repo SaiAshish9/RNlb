@@ -54,23 +54,22 @@ const reducer = (state, action) => {
 
 const checkUser = (dispatch) => async () => {
   const token = await AsyncStorage.getItem('token');
+  const language = await AsyncStorage.getItem('language');
   if (token && token.length > 0) {
     dispatch({
       type: 'signin',
       payload: {token},
     });
-  } else {
-    // const userId = await AsyncStorage.getItem('userId');
-    // if (userId && userId.length > 0) {
-    // navigate({name: 'otp'});
-    // }else {
-    const language = await AsyncStorage.getItem('language');
-    if (language) {
-      navigate({name: 'auth'});
+  }
+
+  if (language) {
+    if (token && token.length > 0) {
+      navigate({name: 'home'});
     } else {
-      navigate({name: 'language'});
+      navigate({name: 'auth'});
     }
-    // }
+  } else {
+    navigate({name: 'language'});
   }
 };
 
@@ -310,6 +309,19 @@ const setLanguage = (dispatch) => async (language) => {
 
 const removeError = (dispatch) => () => dispatch({type: 'remove_error'});
 
+const fetchCategories = (dispatch) => async () => {
+  try {
+    const response = await Api('app/category/subcategory-list');
+    if (response.data.success) {
+      return response.data.data;
+    } else {
+      return null;
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const {Context, Provider} = createDataContext(
   reducer,
   {
@@ -318,6 +330,7 @@ export const {Context, Provider} = createDataContext(
     removeError,
     signout,
     checkUser,
+    fetchCategories,
     verifyOtp,
     resendOtp,
     addError,

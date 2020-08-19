@@ -6,15 +6,27 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  StyleSheet,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-
 import {Context as AuthContext} from '../api/contexts/authContext';
+import LanguageCard from '../svgs/cardLang';
 
 const {height, width} = Dimensions.get('window');
 
 const Language = ({navigation}) => {
   const {state, checkUser, setLanguage} = useContext(AuthContext);
+
+  const data = [
+    {
+      title: 'Arabic',
+      image: require('../assets/arabicFlag.png'),
+    },
+    {
+      title: 'English',
+      image: require('../assets/englishFlag.png'),
+    },
+  ];
 
   return (
     <LinearGradient
@@ -44,96 +56,59 @@ const Language = ({navigation}) => {
               }}>
               Choose your language
             </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setLanguage('arabic');
-                {
-                  state.token
-                    ? navigation.replace('home')
-                    : navigation.replace('auth', {
-                        screen: 'signin',
-                      });
-                }
-              }}>
-              <LinearGradient
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}
-                colors={['rgba(255,255,255,0.09)', 'rgba(255,255,255,0.003) ']}
+
+            {data.map((i, k) => (
+              <TouchableOpacity
+                key={k}
                 style={{
-                  height: height * 0.2,
-                  width: width * 0.75,
-                  marginTop: height * 0.09,
-                  borderTopLeftRadius: 20,
-                  borderBottomLeftRadius: 20,
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  marginTop: 30,
+                }}
+                onPress={() => {
+                  setLanguage(i.title);
+                  {
+                    state.token
+                      ? navigation.replace('home')
+                      : navigation.replace('auth', {
+                          screen: 'signin',
+                        });
+                  }
                 }}>
-                <Image
-                  resizeMode="contain"
+                <View
                   style={{
-                    width: 72,
-                  }}
-                  source={require('../assets/arabicFlag.png')}
-                />
-                <Text
-                  style={{
-                    color: '#ECDBFA',
-                    fontSize: 24,
-                    lineHeight: 32,
-                    marginLeft: 10,
-                    fontFamily: 'Montserrat-Medium',
+                    position: 'absolute',
+                    ...StyleSheet.absoluteFillObject,
                   }}>
-                  Arabic
-                </Text>
-              </LinearGradient>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setLanguage('english');
-                {
-                  state.token
-                    ? navigation.replace('home')
-                    : navigation.replace('auth', {
-                        screen: 'signin',
-                      });
-                }
-              }}>
-              <LinearGradient
-                start={{x: 0, y: 0}}
-                end={{x: 1, y: 0}}
-                colors={['rgba(255,255,255,0.09)', 'rgba(255,255,255,0.003) ']}
-                style={{
-                  height: height * 0.2,
-                  width: width * 0.75,
-                  marginTop: height * 0.05,
-                  borderTopLeftRadius: 20,
-                  borderBottomLeftRadius: 20,
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Image
-                  resizeMode="contain"
+                  <LanguageCard />
+                </View>
+                <View
                   style={{
-                    width: 72,
-                  }}
-                  source={require('../assets/englishFlag.png')}
-                />
-                <Text
-                  style={{
-                    color: '#ECDBFA',
-                    fontSize: 24,
-                    lineHeight: 32,
-                    marginLeft: 10,
-                    fontFamily: 'Montserrat-Medium',
+                    width: '100%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'row',
+                    display: 'flex',
+                    marginTop: 10,
                   }}>
-                  English
-                </Text>
-              </LinearGradient>
-            </TouchableOpacity>
+                  <Image
+                    resizeMode="contain"
+                    style={{
+                      width: 72,
+                    }}
+                    source={i.image}
+                  />
+                  <Text
+                    style={{
+                      color: '#ECDBFA',
+                      fontSize: 24,
+                      lineHeight: 32,
+                      marginLeft: 10,
+                      fontFamily: 'Montserrat-Medium',
+                    }}>
+                    {i.title}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
       </SafeAreaView>

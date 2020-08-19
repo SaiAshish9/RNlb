@@ -125,7 +125,7 @@ const App = () => {
             gestureDirection: 'horizontal',
             ...TransitionPresets.SlideFromRightIOS,
           }}
-          initialRouteName="language"
+          // initialRouteName="login"
           headerMode="none">
           <Stack.Screen name="language" component={Language} />
           <Stack.Screen name="auth" component={AuthScreen} />
