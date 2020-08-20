@@ -322,6 +322,25 @@ const fetchCategories = (dispatch) => async () => {
   }
 };
 
+const fetchItems = (dispatch) => async (category_id, subcategory_id) => {
+  try {
+    if (subcategory_id) {
+      const {data} = await Api.get(
+        `app/items/list?category_id=${category_id}&&subcategory_id=${subcategory_id}`,
+      );
+      console.log(data.data);
+    } else {
+      const {
+        data: {data},
+      } = await Api.get(`app/items/list?category_id=${category_id}`);
+      return data;
+    }
+  } catch (e) {
+    console.log(e);
+  }
+  // return data.data;
+};
+
 export const {Context, Provider} = createDataContext(
   reducer,
   {
@@ -338,6 +357,7 @@ export const {Context, Provider} = createDataContext(
     googleSignIn,
     setValidationError,
     forgotPassword,
+    fetchItems,
   },
   {
     token: null,
