@@ -49,15 +49,6 @@ const Signin = ({navigation}) => {
         }}>
         <ScrollView>
           <SafeAreaView style={{display: 'flex', alignItems: 'center'}}>
-            <Image
-              source={Logo}
-              resizeMode="contain"
-              style={{
-                width: 150,
-                marginTop: width * 0.01,
-              }}
-            />
-
             {state.msg ? (
               <Modal msg={state.msg} hideBtn />
             ) : validationError ? (
@@ -68,6 +59,24 @@ const Signin = ({navigation}) => {
               behavior="position"
               keyboardVerticalOffset={50}
               style={styles.screen}>
+              <View
+                style={{
+    
+                  width: width * 0.8,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Image
+                  source={Logo}
+                  resizeMode="contain"
+                  style={{
+                    width: 150,
+                    // height: height*0.2,
+                    // marginVertical:height*0.05,
+                  }}
+                />
+              </View>
+
               <View
                 style={{
                   display: 'flex',
@@ -150,7 +159,7 @@ const Signin = ({navigation}) => {
                 if (
                   email &&
                   password &&
-                  password.length >= 6 &&
+                  password.length >= 8 &&
                   /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
                 ) {
                   signin({email, password});
@@ -159,17 +168,20 @@ const Signin = ({navigation}) => {
                     !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
                   ) {
                     setValidationError('Invalid Email address');
+                    // se
                   }
-                  if (password && !(password.length >= 6)) {
+                  if (password && (password.length < 8)) {
                     setValidationError(
-                      'Password must be at least 6 characters',
+                      'Password must be at least 8 characters',
                     );
                   }
                   if (!email) {
-                    setValidationError('Email address is required');
+                    setValidationError('All fields are required')
+                    // setValidationError('Email address is required');
                   }
                   if (!password) {
-                    setValidationError('Password is required');
+                    setValidationError('All fields are required')
+                    // setValidationError('Password is required');
                   }
                 }
               }}

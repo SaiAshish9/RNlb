@@ -18,6 +18,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Input from '../components/input';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {Context as AuthContext} from '../api/contexts/authContext';
+import Btn from './btn';
 
 const {height, width} = Dimensions.get('window');
 
@@ -245,15 +246,14 @@ const Signup = ({navigation, route}) => {
                   phone &&
                   password &&
                   /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) &&
-                  password.length >= 6 &&
-                  phone.length >= 10 &&
-                  phone.length <= 15
+                  password.length >= 8 &&
+                  phone.length == 8
                 ) {
                   signup(data);
                 } else {
-                  if (password && password.length < 6) {
+                  if (password && password.length < 8) {
                     setValidationError(
-                      'Password must be at least 6 characters',
+                      'Password must be at least 8 characters',
                     );
                   }
                   if (
@@ -262,38 +262,40 @@ const Signup = ({navigation, route}) => {
                   ) {
                     setValidationError('Invalid Email Address');
                   }
-                  if (phone && !(phone.length >= 10 && phone.length <= 15)) {
-                    setValidationError(
-                      'Phone Number Length should be between 10 and 15',
-                    );
+                  if (phone && !(phone.length == 8)) {
+                    setValidationError('Enter a valid phone number');
                   }
                   if (!selected) {
                     setValidationError('Agree to our terms and conditions');
                   }
                   if (!first_name) {
-                    setValidationError('First Name Is Required');
+                    setValidationError('All fields are required');
+                    // setValidationError('First Name Is Required');
                   }
                   if (!last_name) {
-                    setValidationError('Last Name Is Required');
+                    setValidationError('All fields are required');
+                    // setValidationError('Last Name Is Required');
                   }
                   if (!phone) {
-                    setValidationError('Phone Number Is Required');
+                    setValidationError('All fields are required');
+                    // setValidationError('Phone Number Is Required');
                   }
                   if (!email) {
-                    setValidationError('Email Address Is Required');
+                    setValidationError('All fields are required');
+                    // setValidationError('Email Address Is Required');
                   }
                   if (!password) {
-                    setValidationError('Password Is Required');
+                    setValidationError('All fields are required');
+                    // setValidationError('Password Is Required');
                   }
                 }
                 // navigation.navigate('otp');
               }}
               style={{
-                height: height * 0.09,
-                marginTop: 15,
-                marginBottom: 20,
+                width: '80%',
+                height: height * 0.1,
               }}>
-              <LinearGradient
+              {/* <LinearGradient
                 start={{x: 0, y: 1}}
                 end={{x: 1, y: 0}}
                 colors={['#C01C8A', '#865CF4']}
@@ -320,7 +322,19 @@ const Signup = ({navigation, route}) => {
                 ) : (
                   <ActivityIndicator color="#ECDBFA" size="small" />
                 )}
-              </LinearGradient>
+              </LinearGradient> */}
+              {!state.loading ? (
+                <Btn text="SUBMIT" x="54" />
+              ) : (
+                <>
+                  <Btn text={' '} x="54" />
+                  <ActivityIndicator
+                    color="#ECDBFA"
+                    size="small"
+                    style={{bottom: 63}}
+                  />
+                </>
+              )}
             </TouchableOpacity>
 
             <TouchableWithoutFeedback

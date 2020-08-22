@@ -178,7 +178,7 @@ const verifyOtp = (dispatch) => async ({otp}) => {
       user_id: parseInt(user_id),
       otp,
     });
-    console.log(user_id, res.data.success, otp);
+    // console.log(user_id, res.data.success, otp);
     if (res.data.success) {
       await AsyncStorage.setItem('userId', '');
       navigate({name: 'slider'});
@@ -203,7 +203,7 @@ const resendOtp = (dispatch) => async () => {
     const res = await Api.post('app/user/resend-otp', {
       user_id: parseInt(user_id),
     });
-    console.log(res.data.success);
+    // console.log(res.data.success);
     if (res.data.success) {
       dispatch({
         type: 'add_msg',
@@ -232,6 +232,7 @@ const signup = (dispatch) => async (data) => {
       type: 'toggle_loading',
     });
     const res = await Api.post('app/user/register', data);
+   console.log(res.data)
     if (res.data.data.is_otp_verified) {
       navigate({name: 'slider'});
     } else {
@@ -242,10 +243,10 @@ const signup = (dispatch) => async (data) => {
       type: 'toggle_loading',
     });
   } catch (e) {
-    // console.log(e.message);
+    console.log(e.message);
     dispatch({
       type: 'add_msg',
-      payload: 'User with that email or password already exists',
+      payload: 'User with that email or phone number already exists',
     });
     dispatch({
       type: 'toggle_loading',
@@ -259,7 +260,7 @@ const forgotPassword = (dispatch) => async (email) => {
       type: 'toggle_loading',
     });
     const res = await Api.post('app/user/forgot-password', {email});
-    console.log(res.data);
+    // console.log(res.data);
     if (res.data.success) {
       dispatch({
         type: 'add_msg',
@@ -269,10 +270,10 @@ const forgotPassword = (dispatch) => async (email) => {
         type: 'toggle_loading',
       });
     } else {
-      dispatch({
-        type: 'add_msg',
-        payload: 'The selected email is invalid',
-      });
+      // dispatch({
+      //   type: 'add_msg',
+      //   payload: 'The selected email is invalid',
+      // });
       dispatch({
         type: 'toggle_loading',
       });
@@ -291,7 +292,7 @@ const forgotPassword = (dispatch) => async (email) => {
 const signout = (dispatch) => async () => {
   await AsyncStorage.removeItem('token');
   dispatch({type: 'signout'});
-  navigate({name: 'language'});
+  navigate({name: 'auth'});
 };
 
 const addError = (dispatch) => (msg) =>
@@ -299,7 +300,7 @@ const addError = (dispatch) => (msg) =>
 
 const setValidationError = (dispatch) => (msg) => {
   dispatch({type: 'validation_error', payload: msg});
-  console.log(msg);
+  // console.log(msg);
 };
 
 const setLanguage = (dispatch) => async (language) => {
@@ -328,7 +329,7 @@ const fetchItems = (dispatch) => async (category_id, subcategory_id) => {
       const {data} = await Api.get(
         `app/items/list?category_id=${category_id}&&subcategory_id=${subcategory_id}`,
       );
-      console.log(data.data);
+      // console.log(data.data);
     } else {
       const {
         data: {data},
@@ -341,6 +342,23 @@ const fetchItems = (dispatch) => async (category_id, subcategory_id) => {
   // return data.data;
 };
 
+const fetchItemsInfo = (dispatch) => async (id) => {
+  try {
+    const {
+      data: {data},
+    } = await Api(`app/items/item-details?item_id=${id}`);
+
+    return data.custom_fields_values.map((i, k) => {
+      return {
+        name: i.name,
+        value: i.value,
+      };
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const {Context, Provider} = createDataContext(
   reducer,
   {
@@ -348,6 +366,7 @@ export const {Context, Provider} = createDataContext(
     signup,
     removeError,
     signout,
+    fetchItemsInfo,
     checkUser,
     fetchCategories,
     verifyOtp,

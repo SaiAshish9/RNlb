@@ -41,13 +41,13 @@ const LootStore = ({navigation}) => {
     } else {
       if (selectedSubCategory === 1) {
         await fetchData1(
-          subCategories[selectedSubCategory-1].find(
+          subCategories[selectedSubCategory - 1].find(
             (x) => x.index + 1 === selectedSubCategory,
           )['id'],
         );
       }
     }
-  }, [selectedSubCategory]);
+  }, [selectedSubCategory, current]);
 
   const fetchData1 = async (b) => {
     setLoading(true);
@@ -60,9 +60,9 @@ const LootStore = ({navigation}) => {
       setCategories(x);
       var itemData = null;
       if (b) {
-        itemData = await fetchItems(x[0]['id'], b);
+        itemData = await fetchItems(x[current]['id'], b);
       } else {
-        itemData = await fetchItems(x[0]['id']);
+        itemData = await fetchItems(x[current]['id']);
       }
       if (itemData) setItems(itemData);
       var y = categories.map((i) => {
@@ -216,6 +216,7 @@ const LootStore = ({navigation}) => {
                   <TouchableOpacity
                     onPress={() => {
                       setCurrent(i.index);
+                      setSelectedSubCategory(0);
                     }}
                     key={i.index}>
                     {i.index === current && (
@@ -298,7 +299,14 @@ const LootStore = ({navigation}) => {
                     <View key={k}>
                       <TouchableOpacity
                         onPress={() => {
-                          navigation.push('itemDesc');
+                          console.log(i)
+                          navigation.push('itemDesc', {
+                            price: i.price,
+                            description: i.description,
+                            brand: i.brand,
+                            name: i.name,
+                            id: i.item_id,
+                          });
                         }}>
                         <ImageBackground
                           source={require('../assets/ic_card_a0.png')}
@@ -315,13 +323,13 @@ const LootStore = ({navigation}) => {
                           }}>
                           <Image
                             resizeMode="contain"
-                            source={require('../assets/mouse.png')}
+                            source={require('../assets/thumbnail1.png')}
                             style={{
-                              width: 97,
-                              height: 79,
+                              width: 108,
+                              height: 81,
                               position: 'absolute',
                               top: -24,
-                              left: '21%',
+                              left: '14%',
                             }}
                           />
                           <Text
