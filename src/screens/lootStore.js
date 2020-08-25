@@ -39,12 +39,10 @@ const LootStore = ({navigation}) => {
     if (selectedSubCategory === 0) {
       await fetchData1();
     } else {
-      if (selectedSubCategory === 1) {
-        await fetchData1(
-          subCategories[selectedSubCategory - 1].find(
-            (x) => x.index + 1 === selectedSubCategory,
-          )['id'],
-        );
+      if (selectedSubCategory !== 0) {
+        // console.log(current,selectedSubCategory)
+        // console.log(subCategories)
+        await fetchData1(subCategories[current][selectedSubCategory - 1]['id']);
       }
     }
   }, [selectedSubCategory, current]);
@@ -75,6 +73,7 @@ const LootStore = ({navigation}) => {
           };
         });
       });
+      console.log(y);
       setSubCategories(y);
       setLoading(false);
     }
@@ -271,6 +270,7 @@ const LootStore = ({navigation}) => {
                         }}
                         key={k}
                         onPress={() => {
+                          console.log(k + 1);
                           setSelectedSubCategory(k + 1);
                         }}>
                         <SmallLGBtn
@@ -295,73 +295,125 @@ const LootStore = ({navigation}) => {
                     justifyContent: 'space-between',
                     flexWrap: 'wrap',
                   }}>
-                  {items.map((i, k) => (
-                    <View key={k}>
-                      <TouchableOpacity
-                        onPress={() => {
-                          console.log(i)
-                          navigation.push('itemDesc', {
-                            price: i.price,
-                            description: i.description,
-                            brand: i.brand,
-                            name: i.name,
-                            id: i.item_id,
-                          });
+                  {!items.length > 0 ? (
+                    <View
+                      style={{
+                        width: '100%',
+                        height: height * 0.3,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      <Image
+                        resizeMode="contain"
+                        source={require('../assets/thumbnail1.png')}
+                        style={{
+                          width: 127,
+                          height: 127,
+                          alignSelf: 'center',
+                          justifyContent: 'center',
+                          // position: 'absolute',
+                          // top: -24,
+                          // left: '14%',
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          fontFamily: 'Montserrat-Bold',
+                          //   lineHeight: 16,
+                          color: '#ECDBFA',
+                          opacity: 0.4,
+                          // marginLeft: i.index === current ? 10 : 0,
                         }}>
-                        <ImageBackground
-                          source={require('../assets/ic_card_a0.png')}
-                          resizeMode="contain"
-                          style={{
-                            height: 170,
-                            display: 'flex',
-                            //   alignItems: 'center',
-                            // justifyContent: 'center',
-                            paddingLeft: 20,
-                            paddingTop: 20,
-                            width: width * 0.36,
-                            marginVertical: 10,
-                          }}>
-                          <Image
-                            resizeMode="contain"
-                            source={require('../assets/thumbnail1.png')}
-                            style={{
-                              width: 108,
-                              height: 81,
-                              position: 'absolute',
-                              top: -24,
-                              left: '14%',
-                            }}
-                          />
-                          <Text
-                            style={{
-                              fontFamily: 'Montserrat-Regular',
-                              color: '#D2D7F9',
-                              opacity: 0.5,
-                              fontSize: 14,
-                              marginTop: 60,
-                            }}>
-                            {i.brand}
-                          </Text>
-                          <Text
-                            style={{
-                              fontSize: 16,
-                              color: '#ECDBFA',
-                              fontFamily: 'Montserrat-Bold',
-                            }}>
-                            {i.name}
-                          </Text>
-                          <Text
-                            style={{
-                              color: '#DF2EDC',
-                              fontSize: 12,
-                              fontFamily: 'Montserrat-Regular',
-                            }}>
-                            {i.price}
-                          </Text>
-                        </ImageBackground>
-                      </TouchableOpacity>
+                        No Items Available !
+                      </Text>
                     </View>
-                  ))}
+                  ) : (
+                    items.map((i, k) => (
+                      <View key={k}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            console.log(i);
+                            navigation.push('itemDesc', {
+                              price: i.price,
+                              description: i.description,
+                              brand: i.brand,
+                              name: i.name,
+                              id: i.item_id,
+                              image: i.image,
+                            });
+                          }}>
+                          <ImageBackground
+                            source={require('../assets/ic_card_a0.png')}
+                            resizeMode="contain"
+                            style={{
+                              height: 170,
+                              display: 'flex',
+                              //   alignItems: 'center',
+                              // justifyContent: 'center',
+                              paddingLeft: 20,
+                              paddingTop: 20,
+                              width: width * 0.36,
+                              marginVertical: i.image ? 20 : 10,
+                            }}>
+                            {i.image ? (
+                              <Image
+                                resizeMode="contain"
+                                source={{
+                                  uri: i.image,
+                                }}
+                                style={{
+                                  width: 108,
+                                  height: 81,
+                                  position: 'absolute',
+                                  top: -24,
+                                  left: '14%',
+                                }}
+                              />
+                            ) : (
+                              <Image
+                                resizeMode="contain"
+                                source={require('../assets/thumbnail1.png')}
+                                style={{
+                                  width: 108,
+                                  height: 81,
+                                  position: 'absolute',
+                                  top: -24,
+                                  left: '14%',
+                                }}
+                              />
+                            )}
+                            <Text
+                              style={{
+                                fontFamily: 'Montserrat-Regular',
+                                color: '#D2D7F9',
+                                opacity: 0.5,
+                                fontSize: 14,
+                                marginTop: 60,
+                              }}>
+                              {i.brand}
+                            </Text>
+                            <Text
+                              style={{
+                                fontSize: 16,
+                                color: '#ECDBFA',
+                                fontFamily: 'Montserrat-Bold',
+                              }}>
+                              {i.name}
+                            </Text>
+                            <Text
+                              style={{
+                                color: '#DF2EDC',
+                                fontSize: 12,
+                                fontFamily: 'Montserrat-Regular',
+                              }}>
+                              {i.price}
+                            </Text>
+                          </ImageBackground>
+                        </TouchableOpacity>
+                      </View>
+                    ))
+                  )}
                 </View>
               )}
             </View>

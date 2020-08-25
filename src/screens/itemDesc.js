@@ -67,6 +67,7 @@ const ItemDesc = ({route, navigation}) => {
   const fetchData = async () => {
     const data1 = await fetchItemsInfo(route.params.id);
     if (data1 && data1.length > 0) {
+      console.log(data1)
       setData(data1);
     }
   };
@@ -153,18 +154,36 @@ const ItemDesc = ({route, navigation}) => {
             flexDirection: 'row',
             marginTop: height * 0.05,
           }}>
-          <Image
-            // source={{
-            //   uri:
-            //     'https://cdn.pixabay.com/photo/2015/03/21/06/27/technology-683243_960_720.png',
-            // }}
-            source={require('../assets/thumbnail1.png')}
-            style={{
-              height: 126,
-              width: 126,
-              marginRight: width * 0.05,
-            }}
-          />
+          {route.params.image ? (
+            <Image
+              source={{
+                uri: route.params.image,
+              }}
+              style={{
+                height: 126,
+                width: 126,
+                marginRight: width * 0.05,
+              }}
+            />
+          ) : (
+            <Image
+              // source={{
+              //   uri:
+              //     'https://cdn.pixabay.com/photo/2015/03/21/06/27/technology-683243_960_720.png',
+              // }}
+              source={
+                route.params.image
+                  ? route.params.image
+                  : require('../assets/thumbnail1.png')
+              }
+              style={{
+                height: 126,
+                width: 126,
+                marginRight: width * 0.05,
+              }}
+            />
+          )}
+
           <View>
             <Text
               style={{

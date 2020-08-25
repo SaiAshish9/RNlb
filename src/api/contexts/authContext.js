@@ -181,6 +181,8 @@ const verifyOtp = (dispatch) => async ({otp}) => {
     // console.log(user_id, res.data.success, otp);
     if (res.data.success) {
       await AsyncStorage.setItem('userId', '');
+      console.log(res.data)
+      await AsyncStorage.setItem('token', res.data.data.token);
       navigate({name: 'slider'});
     } else {
       dispatch({
@@ -232,8 +234,10 @@ const signup = (dispatch) => async (data) => {
       type: 'toggle_loading',
     });
     const res = await Api.post('app/user/register', data);
-   console.log(res.data)
+    //  console.log(res.data)
     if (res.data.data.is_otp_verified) {
+      await AsyncStorage.setItem('token', res.data.data.token);
+      // console.log
       navigate({name: 'slider'});
     } else {
       await AsyncStorage.setItem('userId', res.data.data.user_id.toString());
@@ -330,6 +334,7 @@ const fetchItems = (dispatch) => async (category_id, subcategory_id) => {
         `app/items/list?category_id=${category_id}&&subcategory_id=${subcategory_id}`,
       );
       // console.log(data.data);
+      // return data
     } else {
       const {
         data: {data},
@@ -338,6 +343,7 @@ const fetchItems = (dispatch) => async (category_id, subcategory_id) => {
     }
   } catch (e) {
     console.log(e);
+    // return []
   }
   // return data.data;
 };
@@ -349,6 +355,7 @@ const fetchItemsInfo = (dispatch) => async (id) => {
     } = await Api(`app/items/item-details?item_id=${id}`);
 
     return data.custom_fields_values.map((i, k) => {
+      console.log(i);
       return {
         name: i.name,
         value: i.value,
