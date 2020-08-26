@@ -66,7 +66,8 @@ const checkUser = (dispatch) => async () => {
     if (token && token.length > 0) {
       navigate({name: 'home'});
     } else {
-      navigate({name: 'auth'});
+      navigate({name: 'cart'});
+      // navigate({name: 'auth'});
     }
   } else {
     navigate({name: 'language'});
@@ -176,7 +177,7 @@ const verifyOtp = (dispatch) => async ({otp}) => {
     // console.log(user_id, res.data.success, otp);
     if (res.data.success) {
       await AsyncStorage.setItem('userId', '');
-      console.log(res.data)
+      console.log(res.data);
       await AsyncStorage.setItem('token', res.data.data.token);
       navigate({name: 'slider'});
     } else {
