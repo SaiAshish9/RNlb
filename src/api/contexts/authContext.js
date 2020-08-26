@@ -84,7 +84,6 @@ const googleSignIn = (dispatch) => async () => {
     const {
       data: {data},
     } = await Api.post('app/user/check-google-user', {
-      // email:'sanjiv@gmail.com',
       email,
       is_google: 1,
     });
@@ -123,10 +122,6 @@ const googleSignIn = (dispatch) => async () => {
     await GoogleSignin.revokeAccess();
     await GoogleSignin.signOut();
   } catch (err) {
-    // dispatch({
-    //   type: 'add_msg',
-    //   payload: 'Something went wrong ',
-    // });
     await GoogleSignin.revokeAccess();
     await GoogleSignin.signOut();
   }
@@ -333,8 +328,6 @@ const fetchItems = (dispatch) => async (category_id, subcategory_id) => {
       const {data} = await Api.get(
         `app/items/list?category_id=${category_id}&&subcategory_id=${subcategory_id}`,
       );
-      // console.log(data.data);
-      // return data
     } else {
       const {
         data: {data},
@@ -343,9 +336,7 @@ const fetchItems = (dispatch) => async (category_id, subcategory_id) => {
     }
   } catch (e) {
     console.log(e);
-    // return []
   }
-  // return data.data;
 };
 
 const fetchItemsInfo = (dispatch) => async (id) => {

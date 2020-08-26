@@ -27,6 +27,7 @@ import Notifications from './src/screens/notifications';
 import ItemDesc from './src/screens/itemDesc';
 import ForgotPassword from './src/screens/forgotPassword';
 import LootStore from './src/screens/lootStore'
+import CPUS from './src/screens/cpus';
 
 const {width, height} = Dimensions.get('window');
 
@@ -125,7 +126,7 @@ const App = () => {
             gestureDirection: 'horizontal',
             ...TransitionPresets.SlideFromRightIOS,
           }}
-          // initialRouteName="login"
+          // initialRouteName="cpus"
           headerMode="none">
           <Stack.Screen name="language" component={Language} />
           <Stack.Screen name="auth" component={AuthScreen} />
@@ -140,6 +141,7 @@ const App = () => {
           <Stack.Screen name="itemDesc" component={ItemDesc} />
           <Stack.Screen name="forgotPassword" component={ForgotPassword} />
           <Stack.Screen name="lootStore" component={LootStore} />
+          <Stack.Screen name="cpus" component={CPUS} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
