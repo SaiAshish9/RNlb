@@ -26,9 +26,11 @@ import OrderSuccess from './src/screens/orderSuccess';
 import Notifications from './src/screens/notifications';
 import ItemDesc from './src/screens/itemDesc';
 import ForgotPassword from './src/screens/forgotPassword';
-import LootStore from './src/screens/lootStore'
+import LootStore from './src/screens/lootStore';
 import CPUS from './src/screens/cpus';
 import Cart from './src/screens/cart';
+import Orders from './src/screens/orders';
+import LootBox2 from './src/screens/lootBox2';
 
 const {width, height} = Dimensions.get('window');
 
@@ -143,7 +145,9 @@ const App = () => {
           <Stack.Screen name="forgotPassword" component={ForgotPassword} />
           <Stack.Screen name="lootStore" component={LootStore} />
           <Stack.Screen name="cpus" component={CPUS} />
-          <Stack.Screen name="cart" component={Cart}/>
+          <Stack.Screen name="cart" component={Cart} />
+          <Stack.Screen name="orders" component={Orders} />
+          <Stack.Screen name="lootbox2" component={LootBox2} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
