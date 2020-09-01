@@ -66,8 +66,8 @@ const checkUser = (dispatch) => async () => {
     if (token && token.length > 0) {
       navigate({name: 'home'});
     } else {
-      // navigate({name: 'lootbox2'});
-      navigate({name: 'auth'});
+      navigate({name: 'orderDetails'});
+      // navigate({name: 'auth'});
     }
   } else {
     navigate({name: 'language'});

@@ -31,6 +31,7 @@ import CPUS from './src/screens/cpus';
 import Cart from './src/screens/cart';
 import Orders from './src/screens/orders';
 import LootBox2 from './src/screens/lootBox2';
+import OrderDetails from './src/screens/orderDetails';
 
 const {width, height} = Dimensions.get('window');
 
@@ -148,6 +149,7 @@ const App = () => {
           <Stack.Screen name="cart" component={Cart} />
           <Stack.Screen name="orders" component={Orders} />
           <Stack.Screen name="lootbox2" component={LootBox2} />
+          <Stack.Screen name="orderDetails" component={OrderDetails} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
