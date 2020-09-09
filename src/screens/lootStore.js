@@ -274,7 +274,8 @@ const LootStore = ({navigation}) => {
                           setSelectedSubCategory(k + 1);
                         }}>
                         <SmallLGBtn
-                          text={i.name}
+                          // text={i.name}
+                          text={i.name.substring(0,5)}
                           selected={selectedSubCategory === k + 1}
                         />
                       </TouchableOpacity>
