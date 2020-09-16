@@ -57,6 +57,7 @@ const LootStore = ({navigation}) => {
       });
       setCategories(x);
       var itemData = null;
+      console.log(b)
       if (b) {
         itemData = await fetchItems(x[current]['id'], b);
       } else {

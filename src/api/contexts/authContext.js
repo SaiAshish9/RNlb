@@ -326,9 +326,12 @@ const fetchCategories = (dispatch) => async () => {
 const fetchItems = (dispatch) => async (category_id, subcategory_id) => {
   try {
     if (subcategory_id) {
-      const {data} = await Api.get(
-        `app/items/list?category_id=${category_id}&&subcategory_id=${subcategory_id}`,
+      const {
+        data: {data},
+      } = await Api.get(
+        `app/items/list?category_id=${category_id}&&sub_category_id=${subcategory_id}`,
       );
+      return data;
     } else {
       const {
         data: {data},
