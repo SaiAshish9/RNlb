@@ -40,8 +40,6 @@ const LootStore = ({navigation}) => {
       await fetchData1();
     } else {
       if (selectedSubCategory !== 0) {
-        // console.log(current,selectedSubCategory)
-        // console.log(subCategories)
         await fetchData1(subCategories[current][selectedSubCategory - 1]['id']);
       }
     }
@@ -57,13 +55,14 @@ const LootStore = ({navigation}) => {
       });
       setCategories(x);
       var itemData = null;
-      console.log(b)
+      console.log(b);
       if (b) {
         itemData = await fetchItems(x[current]['id'], b);
       } else {
         itemData = await fetchItems(x[current]['id']);
       }
       if (itemData) setItems(itemData);
+      console.log(itemData)
       var y = categories.map((i) => {
         return i.sub_category.map((x, k) => {
           return {
@@ -74,7 +73,7 @@ const LootStore = ({navigation}) => {
           };
         });
       });
-      console.log(y);
+      // console.log(y);
       setSubCategories(y);
       setLoading(false);
     }
@@ -276,7 +275,7 @@ const LootStore = ({navigation}) => {
                         }}>
                         <SmallLGBtn
                           // text={i.name}
-                          text={i.name.substring(0,5)}
+                          text={i.name.substring(0, 5)}
                           selected={selectedSubCategory === k + 1}
                         />
                       </TouchableOpacity>
@@ -331,7 +330,7 @@ const LootStore = ({navigation}) => {
                       </Text>
                     </View>
                   ) : (
-                    items.map((i, k) => (
+                    items.map((i, k) => i.status ===1 && (
                       <View key={k}>
                         <TouchableOpacity
                           onPress={() => {
@@ -341,6 +340,7 @@ const LootStore = ({navigation}) => {
                               description: i.description,
                               brand: i.brand,
                               name: i.name,
+                              value: i.value_en,
                               id: i.item_id,
                               image: i.image,
                             });

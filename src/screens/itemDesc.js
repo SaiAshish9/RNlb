@@ -393,7 +393,7 @@ const ItemDesc = ({route, navigation}) => {
                             textAlign: 'right',
                             paddingLeft: 20,
                           }}>
-                          {a.value ? a.value : 0}
+                          {a.value_en ? a.value_en : 0}
                         </Text>
                       </View>
                     ))

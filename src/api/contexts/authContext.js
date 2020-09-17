@@ -353,7 +353,7 @@ const fetchItemsInfo = (dispatch) => async (id) => {
       console.log(i);
       return {
         name: i.name,
-        value: i.value,
+        value_en: i.value,
       };
     });
   } catch (e) {
